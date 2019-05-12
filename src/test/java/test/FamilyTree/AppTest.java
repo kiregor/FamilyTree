@@ -71,10 +71,26 @@ public class AppTest extends TestCase {
 		
 	}
 	
-	public void fullTest() {
+	public void testFull() {
 		Family fam = new Family();
-		Boolean frankPar1 = fam.setParent("Frank", "Morgan");
-		Boolean frankPar2 = fam.setParent("Frank", "Dylan");
-		fam.male("Dylan");
+		Boolean check;
+		check = fam.setParent("Frank", "Morgan");
+		check = check && fam.setParent("Frank", "Dylan");
+		check = check && fam.male("Dylan");
+		check = check && fam.setParent("Joy", "Frank");
+		check = check && fam.male("Frank");
+		check = check && !fam.male("Morgan");
+		check = check && fam.setParent("July", "Morgan");
+		check = check && (!fam.isMale("Joy") || fam.isFemale("Joy"));
+		String[] test = {"Frank", "July"};
+		check = check && (fam.getChildren("Morgan").equals(test));
+		check = check && fam.setParent("Jennifer", "Morgan");
+		test = new String[] {"Frank", "July", "Jennifer"};
+		check = check && (fam.getChildren("Morgan").equals(test));
+		test = new String[] {"Frank"};
+		check = check && (fam.getChildren("Dylan").equals(test));
+		test = new String[] {"Morgan", "Dylan"};
+		check = check && !fam.setParent("Morgan", "Frank");
+		assertTrue(check);
 	}
 }
