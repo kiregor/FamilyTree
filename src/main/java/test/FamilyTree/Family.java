@@ -113,12 +113,76 @@ public class Family {
 	}
 	
 	public boolean setParent(String nameChild, String nameParent) {
-		return false;
+		Boolean check = false;
+		Person child;
+		
+		List<Person> checkListChild = people.stream().filter(p -> p.getName().equals(nameChild)).collect(Collectors.toList());
+		List<Person> checkListParent = people.stream().filter(p -> p.getName().equals(nameParent)).collect(Collectors.toList());
+		
+		try {
+			child = checkListChild.get(0);
+			if(child.parents[0] == null) {
+				child.parents[0] = nameParent;
+				check = true;
+			}
+			else if(child.parents[1] == null) {
+				if(child.parents[0] == nameParent) {
+					check = true;
+				}
+				else {
+					child.parents[1] = nameParent;
+					check = true;
+				}
+			}
+			else {
+				check = false;
+			}
+		}
+		catch(Exception e) {
+			child = new Person();
+			child.name = nameChild;
+			if(child.parents[0] == null) {
+				child.parents[0] = nameParent;
+				check = true;
+			}
+			else if(child.parents[1] == null) {
+				if(child.parents[0] == nameParent) {
+					check = true;
+				}
+				else {
+					child.parents[1] = nameParent;
+					check = true;
+				}
+			}
+			else {
+				check = false;
+			}
+		}
+		
+		try {
+			Person parent = checkListParent.get(0);
+		}
+		catch(Exception e) {
+			Person parent = new Person();
+			parent.name = nameParent;
+		}
+		
+		return check;
 	}
 	
 	public String[] getParents(String name) {
-		String[] temp = {"hi"};
-		return temp;
+		List<Person> person = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		String[] parents = {};
+		
+		try {
+			Person checkPerson = person.get(0);
+			parents = checkPerson.parents;
+		}
+		catch(Exception e) {
+			
+		}
+		 
+		return parents;
 	}
 	
 	public String[] getChildren(String name) {

@@ -50,4 +50,14 @@ public class AppTest extends TestCase {
 		check = fam.setParent("TEST", "TEST2");
 		assertTrue(check);
 	}
+	
+	public void testGetParent() {
+		Family fam = new Family();
+		String[] exp = {"TEST", "TEST2"};
+		fam.female("TEST3");
+		fam.setParent("TEST3", "TEST");
+		fam.setParent("TEST3", "TEST2");
+		String[] res = fam.getParents("TEST3");
+		assertEquals(exp[0], res[0]);
+	}
 }
