@@ -159,14 +159,18 @@ public class Family {
 			}
 		}
 		
-		try {
-			Person parent = checkListParent.get(0);
+		if(check) {
+			try {
+				Person parent = checkListParent.get(0);
+				parent.children.add(nameChild);
+			}
+			catch(Exception e) {
+				Person parent = new Person();
+				parent.name = nameParent;
+				parent.children.add(nameChild);
+				people.add(parent);
+			}
 		}
-		catch(Exception e) {
-			Person parent = new Person();
-			parent.name = nameParent;
-		}
-		
 		return check;
 	}
 	
@@ -186,7 +190,17 @@ public class Family {
 	}
 	
 	public String[] getChildren(String name) {
-		String[] temp = {"hi"};
-		return temp;
+		List<Person> person = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		String[] children = {};
+		
+		try {
+			Person checkPerson = person.get(0);
+			children = (String[]) checkPerson.children.toArray();
+		}
+		catch(Exception e) {
+			
+		}
+		 
+		return children;
 	}
 }
