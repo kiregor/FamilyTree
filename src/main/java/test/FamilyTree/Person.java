@@ -5,4 +5,12 @@ public class Person {
 	String gender;
 	String[] parents;
 	String[] children;
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
 }

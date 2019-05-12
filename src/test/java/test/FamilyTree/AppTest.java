@@ -12,4 +12,10 @@ public class AppTest extends TestCase {
 		assert(test);
 	}
 	
+	public void testFemale() {
+		Family fam = new Family();
+		Boolean test = fam.female("TEST2");
+		assert(test);
+	}
+	
 }
