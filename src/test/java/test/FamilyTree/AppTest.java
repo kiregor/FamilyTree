@@ -74,22 +74,35 @@ public class AppTest extends TestCase {
 		Family fam = new Family();
 		Boolean check;
 		check = fam.setParent("Frank", "Morgan");
+		System.out.println(check + " - Frank Parent Morgan");
 		check = check && fam.setParent("Frank", "Dylan");
+		System.out.println(check + " - Frank Parent Dylan");
 		check = check && fam.male("Dylan");
+		System.out.println(check + " - Dylan Male");
 		check = check && fam.setParent("Joy", "Frank");
+		System.out.println(check + " - Joy Parent Frank");
 		check = check && fam.male("Frank");
+		System.out.println(check + " - Frank Male");
 		check = check && !fam.male("Morgan");
+		System.out.println(check + " - Morgan Male");
 		check = check && fam.setParent("July", "Morgan");
+		System.out.println(check + " - July Parent Morgan");
 		check = check && (!fam.isMale("Joy") || fam.isFemale("Joy"));
+		System.out.println(check + " - Joy Male/Female");
 		String[] test = {"Frank", "July"};
 		check = check && (fam.getChildren("Morgan").equals(test));
+		System.out.println(check + " - Morgan Children");
 		check = check && fam.setParent("Jennifer", "Morgan");
+		System.out.println(check + " - Jennifer Parent Morgan");
 		test = new String[] {"Frank", "July", "Jennifer"};
 		check = check && (fam.getChildren("Morgan").equals(test));
+		System.out.println(check + " - Morgan Children 2");
 		test = new String[] {"Frank"};
 		check = check && (fam.getChildren("Dylan").equals(test));
+		System.out.println(check + " - Dylan Children");
 		test = new String[] {"Morgan", "Dylan"};
 		check = check && !fam.setParent("Morgan", "Frank");
+		System.out.println(check + " - Morgan Parent Frank");
 		assertTrue(check);
 	}
 }
