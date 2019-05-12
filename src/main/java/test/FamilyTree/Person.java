@@ -6,12 +6,18 @@ import java.util.List;
 public class Person {
 	String name;
 	String gender;
-	String[] parents;
-	List<String> children;
+	Person[] parents;
+	List<Person> children;
 	
 	public Person() {
-		parents = new String[2];
-		children = new ArrayList<String>();
+		parents = new Person[2];
+		children = new ArrayList<Person>();
+	}
+	
+	public Person(String newName) {
+		parents = new Person[2];
+		children = new ArrayList<Person>();
+		name = newName;
 	}
 	
 	public String getName(){
@@ -20,5 +26,9 @@ public class Person {
 	
 	public String getGender() {
 		return gender;
+	}
+	
+	public Person[] getParents() {
+		return parents;
 	}
 }
