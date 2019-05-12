@@ -42,4 +42,12 @@ public class AppTest extends TestCase {
 		check2 = fam.isFemale("TEST");
 		assertTrue(!check1&check2);
 	}
+	
+	public void testSetParent() {
+		Family fam = new Family();
+		Boolean check;
+		fam.female("TEST");
+		check = fam.setParent("TEST", "TEST2");
+		assertTrue(check);
+	}
 }
