@@ -8,6 +8,11 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Family fam = new Family();
+		String[] exp = {"TEST", "TEST2"};
+		fam.female("TEST3");
+		fam.setParent("TEST3", "TEST");
+		fam.setParent("TEST3", "TEST2");
+		String[] res = fam.getChildren("TEST");
     }
 }

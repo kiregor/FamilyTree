@@ -63,12 +63,11 @@ public class AppTest extends TestCase {
 	
 	public void testGetChildren() {
 		Family fam = new Family();
-		String[] exp = {"TEST", "TEST2"};
-		fam.female("TEST3");
-		fam.setParent("TEST3", "TEST");
-		fam.setParent("TEST3", "TEST2");
+		String[] exp = {"TEST2"};
+		fam.female("TEST2");
+		fam.setParent("TEST2", "TEST");
 		String[] res = fam.getChildren("TEST");
-		
+		assertEquals(exp[0], res[0]);
 	}
 	
 	public void testFull() {

@@ -17,7 +17,7 @@ public class Family {
 		
 		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
 		
-		try {
+		if(checkList.size() == 1) {
 			Person updatePerson = checkList.get(0);
 			if(updatePerson.gender == "female") {
 				check = false;
@@ -27,7 +27,7 @@ public class Family {
 				check = true;
 			}
 		}
-		catch(Exception e) {
+		else {
 			Person newPerson = new Person();
 			newPerson.name = name;
 			newPerson.gender = "male";
@@ -43,7 +43,7 @@ public class Family {
 		
 		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
 		
-		try {
+		if(checkList.size() == 1) {
 			Person updatePerson = checkList.get(0);
 			if(updatePerson.gender == "male") {
 				check = false;
@@ -53,7 +53,7 @@ public class Family {
 				check = true;
 			}
 		}
-		catch(Exception e) {
+		else {
 			Person newPerson = new Person();
 			newPerson.name = name;
 			newPerson.gender = "female";
@@ -69,7 +69,7 @@ public class Family {
 		
 		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
 		
-		try {
+		if(checkList.size() == 1) {
 			Person updatePerson = checkList.get(0);
 			if(updatePerson.gender == "male") {
 				check = true;
@@ -78,7 +78,7 @@ public class Family {
 				check = false;
 			}
 		}
-		catch(Exception e) {
+		else {
 			Person newPerson = new Person();
 			newPerson.name = name;
 			people.add(newPerson);
@@ -93,7 +93,7 @@ public class Family {
 		
 		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
 		
-		try {
+		if(checkList.size() == 1) {
 			Person updatePerson = checkList.get(0);
 			if(updatePerson.gender == "female") {
 				check = true;
@@ -102,7 +102,7 @@ public class Family {
 				check = false;
 			}
 		}
-		catch(Exception e) {
+		else {
 			Person newPerson = new Person();
 			newPerson.name = name;
 			people.add(newPerson);
@@ -119,7 +119,7 @@ public class Family {
 		List<Person> checkListChild = people.stream().filter(p -> p.getName().equals(nameChild)).collect(Collectors.toList());
 		List<Person> checkListParent = people.stream().filter(p -> p.getName().equals(nameParent)).collect(Collectors.toList());
 		
-		try {
+		if(checkListChild.size() == 1) {
 			child = checkListChild.get(0);
 			if(child.parents[0] == null) {
 				child.parents[0] = nameParent;
@@ -138,7 +138,7 @@ public class Family {
 				check = false;
 			}
 		}
-		catch(Exception e) {
+		else {
 			child = new Person();
 			child.name = nameChild;
 			if(child.parents[0] == null) {
@@ -160,11 +160,11 @@ public class Family {
 		}
 		
 		if(check) {
-			try {
+			if(checkListParent.size() == 1) {
 				Person parent = checkListParent.get(0);
 				parent.children.add(nameChild);
 			}
-			catch(Exception e) {
+			else {
 				Person parent = new Person();
 				parent.name = nameParent;
 				parent.children.add(nameChild);
@@ -178,12 +178,9 @@ public class Family {
 		List<Person> person = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
 		String[] parents = {};
 		
-		try {
+		if(person.size() == 1) {
 			Person checkPerson = person.get(0);
 			parents = checkPerson.parents;
-		}
-		catch(Exception e) {
-			
 		}
 		 
 		return parents;
@@ -193,14 +190,11 @@ public class Family {
 		List<Person> person = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
 		String[] children = {};
 		
-		try {
+		if(person.size() == 1) {
 			Person checkPerson = person.get(0);
-			children = (String[]) checkPerson.children.toArray();
+			children = checkPerson.children.stream().toArray(String[]::new);
 		}
-		catch(Exception e) {
-			
-		}
-		 
+		System.out.println(children);
 		return children;
 	}
 }
