@@ -15,7 +15,7 @@ public class Family {
 	public boolean male(String name) {
 		boolean check = false;
 		
-		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).filter(p -> p.getGender().equals(null)).collect(Collectors.toList());
+		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
 		
 		try {
 			Person updatePerson = checkList.get(0);
@@ -23,7 +23,6 @@ public class Family {
 				check = false;
 			}
 			else {
-				updatePerson.name = name;
 				updatePerson.gender = "male";
 				check = true;
 			}
@@ -32,6 +31,7 @@ public class Family {
 			Person newPerson = new Person();
 			newPerson.name = name;
 			newPerson.gender = "male";
+			people.add(newPerson);
 			check = true;
 		}
 
@@ -39,15 +39,77 @@ public class Family {
 	}
 	
 	public boolean female(String name) {
-		return false;
+		boolean check = false;
+		
+		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		
+		try {
+			Person updatePerson = checkList.get(0);
+			if(updatePerson.gender == "male") {
+				check = false;
+			}
+			else {
+				updatePerson.gender = "female";
+				check = true;
+			}
+		}
+		catch(Exception e) {
+			Person newPerson = new Person();
+			newPerson.name = name;
+			newPerson.gender = "female";
+			people.add(newPerson);
+			check = true;
+		}
+
+		return check;
 	}
 	
 	public boolean isMale(String name) {
-		return false;
+		boolean check = false;
+		
+		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		
+		try {
+			Person updatePerson = checkList.get(0);
+			if(updatePerson.gender == "male") {
+				check = true;
+			}
+			else {
+				check = false;
+			}
+		}
+		catch(Exception e) {
+			Person newPerson = new Person();
+			newPerson.name = name;
+			people.add(newPerson);
+			check = false;
+		}
+		
+		return check;
 	}
 	
 	public boolean isFemale(String name) {
-		return false;
+		boolean check = false;
+		
+		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		
+		try {
+			Person updatePerson = checkList.get(0);
+			if(updatePerson.gender == "female") {
+				check = true;
+			}
+			else {
+				check = false;
+			}
+		}
+		catch(Exception e) {
+			Person newPerson = new Person();
+			newPerson.name = name;
+			people.add(newPerson);
+			check = false;
+		}
+		
+		return check;
 	}
 	
 	public boolean setParent(String nameChild, String nameParent) {
