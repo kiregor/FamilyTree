@@ -20,11 +20,16 @@ public class Family {
 
 		if (checkList.isPresent()) {
 			Person updatePerson = checkList.get();
-			if (updatePerson.getGender() == "female") {
+			if(!updatePerson.checkSpouse("male")) {
+				if (updatePerson.getGender() == "female") {
+					check = false;
+				} else {
+					updatePerson.setGender("male");
+					check = true;
+				}
+			}
+			else {
 				check = false;
-			} else {
-				updatePerson.setGender("male");
-				check = true;
 			}
 		} else {
 			Person newPerson = new Person();
@@ -44,11 +49,16 @@ public class Family {
 
 		if (checkList.isPresent()) {
 			Person updatePerson = checkList.get();
-			if (updatePerson.getGender() == "male") {
+			if(!updatePerson.checkSpouse("female")) {
+				if (updatePerson.getGender() == "male") {
+					check = false;
+				} else {
+					updatePerson.setGender("female");
+					check = true;
+				}
+			}
+			else {
 				check = false;
-			} else {
-				updatePerson.setGender("female");
-				check = true;
 			}
 		} else {
 			Person newPerson = new Person();

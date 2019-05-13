@@ -16,10 +16,15 @@ public class Person {
 		parents = new ArrayList<Person>();
 		children = new ArrayList<Person>();
 		spouse = new ArrayList<Person>();
+		gender = "";
 	}
 	
 	public Person(String newName) {
 		name = newName;
+		parents = new ArrayList<Person>();
+		children = new ArrayList<Person>();
+		spouse = new ArrayList<Person>();
+		gender = "";
 	}
 	
 	public String getName(){
@@ -69,6 +74,26 @@ public class Person {
 			if(parents.stream().filter(p -> p.name.equals(name)).count() != 1) {
 				check = true;
 				check = parents.stream().allMatch(p -> p.checkParents(name));
+			}
+			else {
+				check = false;
+			}
+		}
+		
+		return check;
+	}
+	
+	public boolean checkSpouse(String gender) {
+		boolean check = false;
+		
+		if(spouse.size() > 0) {
+			if(spouse.stream().filter(s -> s.gender.equals(gender)).count() == 0) {
+				check = true;
+				this.gender = gender;
+				if(gender.equals("male"))
+					spouse.stream().forEach(s -> s.setGender("female"));
+				else
+					spouse.stream().forEach(s -> s.setGender("male"));
 			}
 			else {
 				check = false;
