@@ -2,17 +2,18 @@ package test.FamilyTree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class Person {
 	private String name;
 	private String gender;
-	private Person[] parents;
+	private List<Person> parents;
 	private List<Person> children;
 	private List<Person> spouse;
 	
 	public Person() {
-		parents = new Person[2];
+		parents = new ArrayList<Person>();
 		children = new ArrayList<Person>();
 		spouse = new ArrayList<Person>();
 	}
@@ -54,29 +55,24 @@ public class Person {
 	}
 	
 	public void setParent(Person newParent, int i) {
-		parents[i] = newParent;
+		parents.add(newParent);
 	}
 	
-	public Person[] getParents() {
-		return parents;
+	public Optional<List<Person>> getParents() {
+		return Optional.of(parents);
 	}
 	
 	public boolean checkParents(String name) {
 		boolean check = false;
 		
-		if(parents[0] != null) {
-			if(Stream.of(parents).filter(p -> p.name.equals(name)).count() != 1) {
+		if(parents.size() > 0) {
+			if(parents.stream().filter(p -> p.name.equals(name)).count() != 1) {
 				check = true;
-				parents[0].checkParents(name);
-				if(parents[1] != null)
-					parents[1].checkParents(name);
+				check = parents.stream().allMatch(p -> p.checkParents(name));
 			}
 			else {
 				check = false;
 			}
-		}
-		else {
-			check = true;
 		}
 		
 		return check;
