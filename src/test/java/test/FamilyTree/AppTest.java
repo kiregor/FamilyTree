@@ -28,10 +28,10 @@ public class AppTest extends TestCase {
 	public void testIsMale() {
 		Family fam = new Family();
 		Boolean check1, check2;
-		check1 = fam.isMale("TEST");
+		check1 = !fam.isMale("TEST");
 		fam.male("TEST");
 		check2 = fam.isMale("TEST");
-		assertTrue(!check1&check2);
+		assertTrue(check1&check2);
 	}
 	
 	public void testIsFemale() {
@@ -55,9 +55,13 @@ public class AppTest extends TestCase {
 		Family fam = new Family();
 		String[] exp = {"TEST", "TEST2"};
 		fam.female("TEST3");
+		System.out.println(exp[0] + " " + exp[1]);
 		fam.setParent("TEST3", "TEST");
+		System.out.println(exp[0] + " " + exp[1]);
 		fam.setParent("TEST3", "TEST2");
+		System.out.println(exp[0] + " " + exp[1]);
 		String[] res = fam.getParents("TEST3");
+		System.out.println(res[0] + " " + res[1]);
 		assertEquals(exp[0], res[0]);
 	}
 	
