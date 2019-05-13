@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Person {
-	String name;
-	String gender;
-	Person[] parents;
-	List<Person> children;
-	List<Person> spouse;
+	private String name;
+	private String gender;
+	private Person[] parents;
+	private List<Person> children;
+	private List<Person> spouse;
 	
 	public Person() {
 		parents = new Person[2];
@@ -25,12 +25,40 @@ public class Person {
 		return name;
 	}
 	
+	public void setName(String newName) {
+		name = newName;
+	}
+	
 	public String getGender() {
 		return gender;
 	}
 	
 	public void setGender(String newGender) {
 		gender = newGender;
+	}
+	
+	public List<Person> getChildren(){
+		return children;
+	}
+	
+	public void addToChildren(Person newChild) {
+		children.add(newChild);
+	}
+	
+	public List<Person> getSpouse(){
+		return spouse;
+	}
+	
+	public void addToSpouse(Person newSpouse) {
+		spouse.add(newSpouse);
+	}
+	
+	public void setParent(Person newParent, int i) {
+		parents[i] = newParent;
+	}
+	
+	public Person[] getParents() {
+		return parents;
 	}
 	
 	public boolean checkParents(String name) {

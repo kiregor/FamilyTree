@@ -2,8 +2,9 @@ package test.FamilyTree;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.*;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Family {
 	List<Person> people;
@@ -15,26 +16,26 @@ public class Family {
 	public boolean male(String name) {
 		boolean check = false;
 		
-		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		Optional<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).findFirst();
 		
-		if(checkList.size() == 1) {
-			Person updatePerson = checkList.get(0);
+		if(checkList.isPresent()) {
+			Person updatePerson = checkList.get();
 			
 			
-			if(updatePerson.children.size() > 0) {
-				if(updatePerson.spouse.stream().map( s -> s.gender).filter(g -> g.equals("male")).count() > 0) {
+			if(updatePerson.getChildren().size() > 0) {
+				if(updatePerson.getSpouse().stream().map( s -> s.getGender()).filter(g -> g.equals("male")).count() > 0) {
 					check = false;
 				}
 				else {
-					if(updatePerson.gender == "female") {
+					if(updatePerson.getGender() == "female") {
 						check = false;
 					}
 					else {
-						updatePerson.gender = "male";
+						updatePerson.setGender("male");
 						check = true;
 					}
 					
-					updatePerson.spouse.stream().forEach(s -> s.setGender("female"));
+					updatePerson.getSpouse().stream().forEach(s -> s.setGender("female"));
 				}
 				
 				
@@ -42,8 +43,8 @@ public class Family {
 		}
 		else {
 			Person newPerson = new Person();
-			newPerson.name = name;
-			newPerson.gender = "male";
+			newPerson.setName(name);
+			newPerson.setGender("male");
 			people.add(newPerson);
 			check = true;
 		}
@@ -54,22 +55,22 @@ public class Family {
 	public boolean female(String name) {
 		boolean check = false;
 		
-		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		Optional<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).findFirst();
 		
-		if(checkList.size() == 1) {
-			Person updatePerson = checkList.get(0);
-			if(updatePerson.gender == "male") {
+		if(checkList.isPresent()) {
+			Person updatePerson = checkList.get();
+			if(updatePerson.getGender() == "male") {
 				check = false;
 			}
 			else {
-				updatePerson.gender = "female";
+				updatePerson.setGender("female");
 				check = true;
 			}
 		}
 		else {
 			Person newPerson = new Person();
-			newPerson.name = name;
-			newPerson.gender = "female";
+			newPerson.setName(name);
+			newPerson.setGender("female");
 			people.add(newPerson);
 			check = true;
 		}
@@ -80,11 +81,11 @@ public class Family {
 	public boolean isMale(String name) {
 		boolean check = false;
 		
-		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		Optional<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).findFirst();
 		
-		if(checkList.size() == 1) {
-			Person updatePerson = checkList.get(0);
-			if(updatePerson.gender == "male") {
+		if(checkList.isPresent()) {
+			Person updatePerson = checkList.get();
+			if(updatePerson.getGender() == "male") {
 				check = true;
 			}
 			else {
@@ -93,7 +94,7 @@ public class Family {
 		}
 		else {
 			Person newPerson = new Person();
-			newPerson.name = name;
+			newPerson.setName(name);
 			people.add(newPerson);
 			check = false;
 		}
@@ -104,11 +105,12 @@ public class Family {
 	public boolean isFemale(String name) {
 		boolean check = false;
 		
-		List<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		Optional<Person> checkList = people.stream().filter(p -> p.getName().equals(name)).findFirst();
 		
-		if(checkList.size() == 1) {
-			Person updatePerson = checkList.get(0);
-			if(updatePerson.gender == "female") {
+		
+		if(checkList.isPresent()) {
+			Person updatePerson = checkList.get();
+			if(updatePerson.getGender().equals("female")) {
 				check = true;
 			}
 			else {
@@ -117,7 +119,7 @@ public class Family {
 		}
 		else {
 			Person newPerson = new Person();
-			newPerson.name = name;
+			newPerson.setName(name);
 			people.add(newPerson);
 			check = false;
 		}
@@ -129,44 +131,44 @@ public class Family {
 		Boolean check = false;
 		Person child, parent;
 		
-		List<Person> checkListChild = people.stream().filter(p -> p.getName().equals(nameChild)).collect(Collectors.toList());
-		List<Person> checkListParent = people.stream().filter(p -> p.getName().equals(nameParent)).collect(Collectors.toList());
+		Optional<Person> checkListChild = people.stream().filter(p -> p.getName().equals(nameChild)).findFirst();
+		Optional<Person> checkListParent = people.stream().filter(p -> p.getName().equals(nameParent)).findFirst();
 				
-		if(checkListChild.size() == 1) {
-			child = checkListChild.get(0);
+		if(checkListChild.isPresent()) {
+			child = checkListChild.get();
 			if(child.checkParents(nameChild)) {
-				if(child.parents[0] == null) {
-					if(checkListParent.size() == 1) {
-						parent = checkListParent.get(0);
-						parent.children.add(child);
+				if(child.getParents()[0] == null) {
+					if(checkListParent.isPresent()) {
+						parent = checkListParent.get();
+						parent.addToChildren(child);
 					}
 					else {
 						parent = new Person();
-						parent.name = nameParent;
-						parent.children.add(child);
+						parent.setName(nameParent);
+						parent.addToChildren(child);
 						people.add(parent);
 					}
-					child.parents[0] = parent;
+					child.setParent(parent, 0);
 					check = true;
 				}
-				else if(child.parents[1] == null) {
-					if(child.parents[0].name == nameParent) {
+				else if(child.getParents()[1] == null) {
+					if(child.getParents()[0].getName().equals(nameParent)) {
 						check = true;
 					}
 					else {
-						if(checkListParent.size() == 1) {
-							parent = checkListParent.get(0);
-							parent.children.add(child);
+						if(checkListParent.isPresent()) {
+							parent = checkListParent.get();
+							parent.addToChildren(child);
 						}
 						else {
 							parent = new Person();
-							parent.name = nameParent;
-							parent.children.add(child);
+							parent.setName(nameParent);
+							parent.addToChildren(child);
 							people.add(parent);
 						}
-						child.parents[1] = parent;
-						child.parents[1].spouse.add(child.parents[0]);
-						child.parents[0].spouse.add(child.parents[1]);
+						child.setParent(parent,1);
+						child.getParents()[1].getSpouse().add(child.getParents()[0]);
+						child.getParents()[0].getSpouse().add(child.getParents()[1]);
 						check = true;
 					}
 				}
@@ -178,17 +180,17 @@ public class Family {
 		else {
 			child = new Person();
 			people.add(child);
-			child.name = nameChild;
-			if(checkListParent.size() == 1) {
-				parent = checkListParent.get(0);
+			child.setName(nameChild);
+			if(checkListParent.isPresent()) {
+				parent = checkListParent.get();
 			}
 			else {
 				parent = new Person();
-				parent.name = nameParent;
+				parent.setName(nameParent);
 				people.add(parent);
 			}
-			child.parents[0] = parent;
-			parent.children.add(child);
+			child.setParent(parent,0);
+			parent.addToChildren(child);
 			check = true;
 		}
 
@@ -196,24 +198,24 @@ public class Family {
 	}
 	
 	public String[] getParents(String name) {
-		List<Person> person = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		Optional<Person> person = people.stream().filter(p -> p.getName().equals(name)).findFirst();
 		String[] parents = {};
 		
-		if(person.size() == 1) {
-			Person checkPerson = person.get(0);
-			parents = Stream.of(checkPerson.parents).map(p -> p.name).toArray(String[]::new);
+		if(person.isPresent()) {
+			Person checkPerson = person.get();
+			parents = Stream.of(checkPerson.getParents()).map(p -> p.getName()).toArray(String[]::new);
 		}
 		 
 		return parents;
 	}
 	
 	public String[] getChildren(String name) {
-		List<Person> person = people.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+		Optional<Person> person = people.stream().filter(p -> p.getName().equals(name)).findFirst();
 		String[] children = {};
 		
-		if(person.size() == 1) {
-			Person checkPerson = person.get(0);
-			children = checkPerson.children.stream().map(c -> c.name).toArray(String[]::new);
+		if(person.isPresent()) {
+			Person checkPerson = person.get();
+			children = checkPerson.getChildren().stream().map(c -> c.getName()).toArray(String[]::new);
 		}
 		return children;
 	}
